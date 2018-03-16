@@ -13,12 +13,12 @@ import java.io.Serializable;
  */
 public class Account implements Serializable{
     private int number;
-    private double balance;
+    private float balance;
 
     public Account() {
     }
 
-    public Account(int number, double balance) {
+    public Account(int number, float balance) {
         this.number = number;
         this.balance = balance;
     }
@@ -31,13 +31,17 @@ public class Account implements Serializable{
         this.number = number;
     }
 
-    public double getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Account{" + "number=" + number + ", balance=" + balance + '}';
+    }
     
 }
