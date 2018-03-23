@@ -11,37 +11,35 @@ import java.io.Serializable;
  *
  * @author BrunoAlbuquerqueBrit
  */
-public class Account implements Serializable{
-    private int number;
-    private float balance;
+public class Account implements Serializable {
 
-    public Account() {
+    private int numero;
+    private int saldo;
+
+    public Account(int numero, int saldo) {
+        this.numero = numero;
+        this.saldo = saldo;
     }
 
-    public Account(int number, float balance) {
-        this.number = number;
-        this.balance = balance;
+    public int getNumero() {
+        return numero;
     }
 
-    public int getNumber() {
-        return number;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public int getSaldo() {
+        return saldo;
     }
 
-    public float getBalance() {
-        return balance;
-    }
-
-    public void setBalance(float balance) {
-        this.balance = balance;
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
     }
 
     @Override
     public String toString() {
-        return "Account{" + "number=" + number + ", balance=" + balance + '}';
+        return "Account{" + "numero=" + numero + ", saldo=" + saldo + '}';
     }
-    
+
 }

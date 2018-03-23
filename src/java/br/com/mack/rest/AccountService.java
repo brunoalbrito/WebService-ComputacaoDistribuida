@@ -6,6 +6,8 @@
 package br.com.mack.rest;
 
 import br.com.mack.model.Account;
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,36 +20,45 @@ import javax.ws.rs.core.MediaType;
  * @author BrunoAlbuquerqueBrit
  */
 @Path("")
-public class AccountService {
+public class AccountService implements InterfaceBanco {
+
+    private final ArrayList<Account> accounts = new ArrayList<>();
+
+    public AccountService() {
+        for (int i = 0; i < 10; i++) {
+            accounts.add(new Account(i, 1000));
+        }
+    }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/saldo/{conta}")
+    @Override
     public String saldo(@PathParam("conta") int conta) {
-        Account account = new Account();
-        account.setNumber(conta);
-        System.out.println(account);
-        return "Saldo funcionando" +account.toString();
+        JsonObject object = new JsonObject();
+        object.addProperty("saldo", String.valueOf(accounts.get(conta).getSaldo()));
+        return object.toString();
     }
 
     @POST
     @Path("/deposito/{conta}/{valor}")
-    public String deposito(@PathParam("conta") int conta, @PathParam("valor") float valor) {
-        return "Deposito funcionando";
+    public void deposito(@PathParam("conta") int conta, @PathParam("valor") int valor) {
+        accounts.get(conta).setSaldo(accounts.get(conta).getSaldo() + valor);
     }
 
     @POST
     @Path("/transferencia/{contaOrigem}/{contaDestino}/{valor}")
-    public String transferencia(@PathParam("contaOrigem") int contaOrigem,
-            @PathParam("contaDestino") int contaDestino,
-            @PathParam("valor") float valor) {
-        return "Transferencia funcionando";
+    public void transferencia(@PathParam("contaOrigem") int conta_origem,
+            @PathParam("contaDestino") int conta_destino,
+            @PathParam("valor") int valor) {
+//        return "Transferencia funcionando";
     }
 
     @POST
     @Path("/saque/{conta}/{valor}")
-    public String saque(@PathParam("contaOrigem") int conta, @PathParam("valor") float valor) {
-        return "Saque funcionando";
+    public void saque(@PathParam("contaOrigem") int conta, @PathParam("valor") int valor) {
+        System.out.println("Saque funcion");
+//        return "Saque funcionando";
     }
 
 }
