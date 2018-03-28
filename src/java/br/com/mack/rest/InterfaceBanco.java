@@ -5,12 +5,15 @@
  */
 package br.com.mack.rest;
 
+import br.com.mack.model.Account;
+import java.util.Map;
+
 /**
  *
  * @author BrunoAlbuquerqueBrit
  */
 public interface InterfaceBanco {
-    public void deposito(int conta, int valor);
+    public void deposito(String valores);
     
     public void saque(int conta, int valor);
     

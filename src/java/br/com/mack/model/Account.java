@@ -5,12 +5,18 @@
  */
 package br.com.mack.model;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  *
  * @author BrunoAlbuquerqueBrit
  */
+
+@XmlRootElement
 public class Account implements Serializable {
 
     private int numero;

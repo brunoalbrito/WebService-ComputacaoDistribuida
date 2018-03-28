@@ -6,14 +6,18 @@
 package br.com.mack.rest;
 
 import br.com.mack.model.Account;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.Map;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import jdk.nashorn.internal.parser.JSONParser;
 
 /**
  *
@@ -42,8 +46,16 @@ public class AccountService implements InterfaceBanco {
 
     @POST
     @Path("/deposito/{conta}/{valor}")
-    public void deposito(@PathParam("conta") int conta, @PathParam("valor") int valor) {
-        accounts.get(conta).setSaldo(accounts.get(conta).getSaldo() + valor);
+    @Consumes(MediaType.APPLICATION_JSON)
+    //public void deposito(@PathParam("conta") int conta, @PathParam("valor") int valor) {
+    public void deposito(String valores) {
+        Gson g = new Gson();    
+        Account account = g.fromJson(valores, Account.class);
+        System.out.println(account);
+        
+        //System.out.println(valores);
+        accounts.get(account.getNumero()).setSaldo(accounts.get(account.getNumero()).getSaldo() + account.getSaldo());
+        System.out.println(accounts.get(account.getNumero()));
     }
 
     @POST
