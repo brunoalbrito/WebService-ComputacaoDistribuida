@@ -23,3 +23,5 @@ hs_err_pid*
 /WebServiceBank/nbproject/private/
 /build/
 /dist/
+/BankConsumer/nbproject/private/
+/BankConsumer/build/
