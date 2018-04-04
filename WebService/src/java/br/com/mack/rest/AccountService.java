@@ -41,7 +41,7 @@ public class AccountService {
     public String saldo(@PathParam("conta") int conta) {
         JsonObject object = new JsonObject();
         object.addProperty("saldo", String.valueOf(accounts.get(conta).getSaldo()));
-        return object.toString();
+        return "O saldo do usuario " + conta + " e R$" + accounts.get(conta).getSaldo() + ";";
     }
 
     @POST
@@ -59,7 +59,7 @@ public class AccountService {
         if (a.deposito(account.getSaldo())) {
             accounts.set(account.getNumero(), a);
             System.out.println(accounts.get(account.getNumero()));
-            return "Operacao realizada com sucesso";
+            return "Deposito bem sucessido de RS " + account.getSaldo() + " na conta " + account.getNumero() + ";";
         }
 
         return "Falha na operacao";
@@ -84,7 +84,7 @@ public class AccountService {
                 accounts.set(transferencia.getContaOrigem(), contaOrigem);
                 accounts.set(transferencia.getContaDestino(), contaDestino);
 
-                return "Operacao realizada com sucesso";
+                return "Transferencia bem sucedida de RS" + transferencia.getValor() + " da conta " + transferencia.getContaOrigem() + " para a conta " + transferencia.getContaDestino()+ "!";
             }
         }
 
@@ -106,8 +106,8 @@ public class AccountService {
             a.saque(account.getSaldo());
             accounts.set(account.getNumero(), a);
             System.out.println(accounts.get(account.getNumero()));
-            System.out.println("Saque funcion");
-            return "Operacao realizada com sucesso";
+            System.out.println("Saque funcionou");
+            return "Saque bem sucessido de RS " + account.getSaldo() + " na conta " + account.getNumero() + ";";
         }
 
         return "Falha na operacao";

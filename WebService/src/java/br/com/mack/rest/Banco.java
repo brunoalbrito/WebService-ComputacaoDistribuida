@@ -13,6 +13,6 @@ import javax.ws.rs.core.Application;
  * @author BrunoAlbuquerqueBrit
  */
 @ApplicationPath("bank")
-public class Service extends Application{
+public class Banco extends Application{
     
 }

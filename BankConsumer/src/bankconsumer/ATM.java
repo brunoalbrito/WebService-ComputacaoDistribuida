@@ -32,31 +32,24 @@ public class ATM {
 
         switch (operacao) {
             case "saldo":
-                System.out.println("Saldo");
                 conta = Integer.parseInt(args[3]);
-                System.out.println(conta);
                 consultarSaldo(maquina, porta, conta);
                 break;
             case "deposito":
-                System.out.println("Deposito");
                 conta = Integer.parseInt(args[3]);
                 valor = Integer.parseInt(args[4]);
-                System.out.println("Deposito");
                 fazerDeposito(maquina, porta, conta, valor);
                 break;
             case "transferencia":
                 contaOrigem = Integer.parseInt(args[3]);
                 contaDestino = Integer.parseInt(args[4]);
                 valor = Integer.parseInt(args[5]);
-                System.out.println("Transferencia");
                 fazerTransferencia(maquina, porta, contaOrigem, contaDestino, valor);
                 break;
             case "saque":
-                System.out.println("Saque");
                 conta = Integer.parseInt(args[3]);
                 valor = Integer.parseInt(args[4]);
-                System.out.println(conta);
-                System.out.println(valor);
+                fazerSaque(maquina, porta, conta, valor);
                 break;
         }
     }
@@ -68,7 +61,7 @@ public class ATM {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             int responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode);
+            //System.out.println("GET Response Code :: " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) { // success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         con.getInputStream()));
@@ -81,10 +74,7 @@ public class ATM {
                 in.close();
 
                 // print result
-                System.out.println("A conta " + conta + " possui " + response.toString().
-                        replace("{", "").replace("}", "").
-                        replace("\"", "").
-                        replace(":", " de ") + " reais");
+                System.out.println(response.toString());
             } else {
                 System.out.println("GET request not worked");
             }
@@ -113,7 +103,7 @@ public class ATM {
             wr.flush();
 
             int responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode);
+            //System.out.println("GET Response Code :: " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) { // success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         con.getInputStream()));
@@ -156,7 +146,50 @@ public class ATM {
             wr.flush();
 
             int responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode);
+            //System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // print result
+                System.out.println(response);
+            } else {
+                System.out.println("GET request not worked");
+            }
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ATM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ATM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void fazerSaque(String maquina, String porta, int conta, int valor) {
+        String host = "http://" + maquina + ":" + porta + "/WebService/bank/saque";
+        URL url;
+        try {
+            url = new URL(host);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+
+            String query = "{\"numero\":\"" + conta + "\", \"saldo\" : \"" + valor + "\"}";
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(query);
+            wr.flush();
+
+            int responseCode = con.getResponseCode();
+            //System.out.println("GET Response Code :: " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) { // success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         con.getInputStream()));
